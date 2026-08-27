@@ -488,9 +488,16 @@ function Index() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <p className="font-display text-sm font-bold">Request your consultation</p>
+                  {lead.name && (
+                    <p className="rounded-xl border border-lime-brand/30 bg-lime-brand/10 px-4 py-2.5 text-xs font-semibold text-lime-brand">
+                      Pre-filled from your chat with Nova — edit anything before sending.
+                    </p>
+                  )}
                   <input
                     required
                     type="text"
+                    value={lead.name}
+                    onChange={(e) => setLead((l) => ({ ...l, name: e.target.value }))}
                     placeholder="Full name"
                     aria-label="Full name"
                     className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-cyan-brand focus:outline-none"
@@ -498,16 +505,21 @@ function Index() {
                   <input
                     required
                     type="email"
+                    value={lead.email}
+                    onChange={(e) => setLead((l) => ({ ...l, email: e.target.value }))}
                     placeholder="Work email"
                     aria-label="Work email"
                     className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-cyan-brand focus:outline-none"
                   />
                   <textarea
-                    rows={3}
+                    rows={4}
+                    value={lead.details}
+                    onChange={(e) => setLead((l) => ({ ...l, details: e.target.value }))}
                     placeholder="What would you love to automate?"
                     aria-label="What would you love to automate?"
                     className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-cyan-brand focus:outline-none"
                   />
+
                   <button
                     type="submit"
                     className="gradient-brand inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-brand/40 transition-transform hover:scale-[1.02]"
