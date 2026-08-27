@@ -547,13 +547,21 @@ function Index() {
                     className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-cyan-brand focus:outline-none"
                   />
 
+                  {error && (
+                    <p role="alert" className="rounded-xl border border-coral-brand/40 bg-coral-brand/10 px-4 py-2.5 text-xs font-semibold text-coral-brand">
+                      {error}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    className="gradient-brand inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-brand/40 transition-transform hover:scale-[1.02]"
+                    disabled={sending}
+                    className="gradient-brand inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-brand/40 transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    Book my free consultation
+                    {sending ? "Sending…" : "Book my free consultation"}
                     <ArrowRight className="size-4" />
                   </button>
+
                 </form>
               )}
             </div>
