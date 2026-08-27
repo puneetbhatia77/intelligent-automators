@@ -11,6 +11,8 @@ import {
   Zap,
 } from "lucide-react";
 import heroNetwork from "../assets/hero-network.jpg";
+import LeadChat, { type LeadAnswers } from "../components/LeadChat";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
