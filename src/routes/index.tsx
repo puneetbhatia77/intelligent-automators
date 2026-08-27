@@ -168,20 +168,42 @@ const navLinks = [
 
 function Index() {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const [fromChat, setFromChat] = useState(false);
   const [lead, setLead] = useState({ name: "", email: "", details: "" });
+  const sendLead = useServerFn(submitLead);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError("");
+    try {
+      await sendLead({
+        data: {
+          name: lead.name,
+          email: lead.email,
+          details: lead.details,
+          source: fromChat ? "Nova chat + form" : "Consultation form",
+        },
+      });
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong sending your request. Please try again or email hello@nexflow.ai.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleQualified = (a: LeadAnswers) => {
+    setFromChat(true);
     setLead({
       name: a.name,
       email: a.email,
       details: `Business: ${a.business}\nAutomation goal: ${a.goal}\nCurrent challenge: ${a.challenge}`,
     });
   };
+
 
 
   return (
