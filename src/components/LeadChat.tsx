@@ -47,6 +47,8 @@ const steps: Step[] = [
   },
 ];
 
+const stepAt = (i: number) => steps[i] as Step;
+
 type Msg = { from: "bot" | "user"; text: string };
 
 const intro: Msg[] = [
@@ -54,7 +56,7 @@ const intro: Msg[] = [
     from: "bot",
     text: "Hi! I'm Nova, Nexflow's automated assistant. I'll ask a few quick questions to scope your automation opportunity — takes about 60 seconds.",
   },
-  { from: "bot", text: steps[0].prompt },
+  { from: "bot", text: stepAt(0).prompt },
 ];
 
 export default function LeadChat({ onQualified }: { onQualified: (a: LeadAnswers) => void }) {
@@ -78,7 +80,7 @@ export default function LeadChat({ onQualified }: { onQualified: (a: LeadAnswers
   const submitAnswer = (raw: string) => {
     const text = raw.trim();
     if (!text || done) return;
-    const step = steps[index];
+    const step = stepAt(index);
     if (step.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) {
       setMessages((m) => [
         ...m,
@@ -107,7 +109,7 @@ export default function LeadChat({ onQualified }: { onQualified: (a: LeadAnswers
               text: "I've pre-filled the consultation form with your answers — just hit the button below to review and book your free 30-minute session.",
             },
           ]
-        : [{ from: "bot" as const, text: steps[index + 1].prompt }]),
+        : [{ from: "bot" as const, text: stepAt(index + 1).prompt }]),
     ]);
 
     if (isLast) {
@@ -184,9 +186,9 @@ export default function LeadChat({ onQualified }: { onQualified: (a: LeadAnswers
               </div>
             ))}
 
-            {!done && steps[index].chips && (
+            {!done && stepAt(index).chips && (
               <div className="flex flex-wrap gap-2 pt-1">
-                {steps[index].chips!.map((c) => (
+                {stepAt(index).chips!.map((c) => (
                   <button
                     key={c}
                     type="button"
@@ -217,9 +219,9 @@ export default function LeadChat({ onQualified }: { onQualified: (a: LeadAnswers
                 ref={inputRef}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                type={steps[index].type === "email" ? "email" : "text"}
-                placeholder={steps[index].placeholder}
-                aria-label={steps[index].prompt}
+                type={stepAt(index).type === "email" ? "email" : "text"}
+                placeholder={stepAt(index).placeholder}
+                aria-label={stepAt(index).prompt}
                 className="flex-1 rounded-full border border-border bg-background px-4 py-2.5 text-sm focus:border-violet-brand focus:outline-none"
               />
               <button
