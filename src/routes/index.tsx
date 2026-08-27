@@ -166,11 +166,21 @@ const navLinks = [
 
 function Index() {
   const [submitted, setSubmitted] = useState(false);
+  const [lead, setLead] = useState({ name: "", email: "", details: "" });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
   };
+
+  const handleQualified = (a: LeadAnswers) => {
+    setLead({
+      name: a.name,
+      email: a.email,
+      details: `Business: ${a.business}\nAutomation goal: ${a.goal}\nCurrent challenge: ${a.challenge}`,
+    });
+  };
+
 
   return (
     <div className="min-h-screen bg-background font-sans">
