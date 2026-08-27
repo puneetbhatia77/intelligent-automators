@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { submitLead } from "../lib/leads.functions";
 import { useState, type FormEvent } from "react";
+
 import {
   ArrowRight,
   Bot,
