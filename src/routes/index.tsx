@@ -568,6 +568,9 @@ function Index() {
           </div>
         </div>
       </footer>
+
+      <LeadChat onQualified={handleQualified} />
+
     </div>
   );
 }
