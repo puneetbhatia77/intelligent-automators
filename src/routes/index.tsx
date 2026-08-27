@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { submitLead } from "../lib/leads.functions";
 import { useState, type FormEvent } from "react";
+
 import {
   ArrowRight,
   Bot,
@@ -168,20 +171,42 @@ const navLinks = [
 
 function Index() {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const [fromChat, setFromChat] = useState(false);
   const [lead, setLead] = useState({ name: "", email: "", details: "" });
+  const sendLead = useServerFn(submitLead);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError("");
+    try {
+      await sendLead({
+        data: {
+          name: lead.name,
+          email: lead.email,
+          details: lead.details,
+          source: fromChat ? "Nova chat + form" : "Consultation form",
+        },
+      });
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong sending your request. Please try again or email hello@nexflow.ai.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleQualified = (a: LeadAnswers) => {
+    setFromChat(true);
     setLead({
       name: a.name,
       email: a.email,
       details: `Business: ${a.business}\nAutomation goal: ${a.goal}\nCurrent challenge: ${a.challenge}`,
     });
   };
+
 
 
   return (
@@ -522,13 +547,21 @@ function Index() {
                     className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-cyan-brand focus:outline-none"
                   />
 
+                  {error && (
+                    <p role="alert" className="rounded-xl border border-coral-brand/40 bg-coral-brand/10 px-4 py-2.5 text-xs font-semibold text-coral-brand">
+                      {error}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    className="gradient-brand inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-brand/40 transition-transform hover:scale-[1.02]"
+                    disabled={sending}
+                    className="gradient-brand inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-brand/40 transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    Book my free consultation
+                    {sending ? "Sending…" : "Book my free consultation"}
                     <ArrowRight className="size-4" />
                   </button>
+
                 </form>
               )}
             </div>
