@@ -1,10 +1,10 @@
 import { defineMcp } from "@lovable.dev/mcp-js";
-
-type McpTools = Parameters<typeof defineMcp>[0]["tools"];
 import getServicesTool from "./tools/get-services";
 import getProcessTool from "./tools/get-process";
 import getFaqTool from "./tools/get-faq";
 import requestConsultationTool from "./tools/request-consultation";
+
+type McpTools = Parameters<typeof defineMcp>[0]["tools"];
 
 export default defineMcp({
   name: "ai-workflow-solutions",
