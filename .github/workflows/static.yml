@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
 
       - name: Install dependencies
         run: npm install
@@ -34,16 +34,16 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Verify dist directory exists
+      - name: Verify build output exists
         run: |
-          if [ ! -d "./dist" ]; then
-            echo "Error: dist directory not found after build"
+          if [ ! -d "./.output" ]; then
+            echo "Error: .output directory not found after build"
             echo "Current directory contents:"
             ls -la
             exit 1
           fi
-          echo "Build successful, dist directory found"
-          du -sh ./dist
+          echo "Build successful, .output directory found"
+          du -sh ./.output
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
@@ -51,7 +51,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./dist
+          path: ./.output/public
 
   deploy:
     needs: build
