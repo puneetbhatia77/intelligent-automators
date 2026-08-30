@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "sdk_version": "0.28.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "ai-workflow-solutions",
+      "version": "0.1.0",
+      "title": "AI Workflow Solutions"
+    },
+    "tools": [
+      {
+        "name": "get_services",
+        "title": "Get services and use cases",
+        "description": "List the AI automation services offered (workflows, agents, chatbots, process automation) and practical use cases by business area.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_process",
+        "title": "Get engagement process",
+        "description": "Return the four-step engagement process (Audit, Design, Build, Operate & Scale) for an AI automation project.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_faq",
+        "title": "Get FAQ",
+        "description": "Return frequently asked questions and answers about maintenance, timelines, security, tooling, and pricing.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "request_consultation",
+        "title": "Request a free consultation",
+        "description": "Submit a free AI automation consultation request. Sends the enquiry to the consultant and logs it as a new lead. Only submit with the visitor's explicit confirmation.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "description": "Full name of the person requesting."
+            },
+            "email": {
+              "type": "string",
+              "maxLength": 200,
+              "format": "email",
+              "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+              "description": "Contact email address."
+            },
+            "details": {
+              "default": "",
+              "description": "Business, automation goal, and current challenge or scale.",
+              "type": "string",
+              "maxLength": 4000
+            }
+          },
+          "required": [
+            "name",
+            "email"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
