@@ -18,7 +18,7 @@ export default defineTool({
   },
   annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
   handler: async ({ name, email, details }) => {
-    const { appendLeadToSheet, emailLeadNotification } = await import("../leads.server");
+    const { appendLeadToSheet, emailLeadNotification } = await import("../../leads.server");
     const submittedAt = new Date().toISOString();
     const lead = { name, email, details: details ?? "", source: "MCP agent" };
 
